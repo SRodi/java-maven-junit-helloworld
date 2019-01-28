@@ -37,7 +37,7 @@ public class Hello {
     public void sayHello(PrintStream printer) {
 
         // testing pipeline auto-build
-        System.out.println("testing auto-build");
+        System.out.println("testing auto-build -- ");
 
         for (short i = 0; i < times; i++) {
             printer.println(HELLO);
