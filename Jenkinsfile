@@ -18,7 +18,7 @@ node {
             emailext(
                 to: "simone.rodigari@gmail.com",
                 subject: "${status}: Job '${env.JOB_NAME}'",
-                body: """<p>email body</p>""""
+                body: """<p>email body</p>"""
                 )
         }
 }
