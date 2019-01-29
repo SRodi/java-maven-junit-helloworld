@@ -1,17 +1,28 @@
 node {
 
     notify('Started')
-    stage('checkout') {
 
-        git 'https://github.com/SRodi/java-maven-junit-helloworld.git'
-    }
-    stage('compiling, packaging'){
+    try{
+        stage('checkout') {
 
-        sh label: '', script: 'mvn package -DskipTests=true'
+            git 'https://github.com/SRodi/java-maven-junit-helloworld.git'
+        }
+        stage('compiling, packaging'){
+
+            sh label: '', script: 'mvn package -DskipTests=true'
+        }
+        stage('archive'){
+            archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
+        }
+
+        notify('Success')
+
+    } catch (err){
+        notify("Error: ${err}")
+        currentBuild.result = 'FAILURE'
+
     }
-    stage('archive'){
-        archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
-    }
+    notify('Done')
 }
 
 def notify(status){
