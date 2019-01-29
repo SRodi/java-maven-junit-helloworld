@@ -1,5 +1,6 @@
 node {
 
+    notify('Started')
     stage('checkout') {
 
         git 'https://github.com/SRodi/java-maven-junit-helloworld.git'
@@ -11,6 +12,15 @@ node {
     stage('archive'){
         archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
     }
+
+    def notify(status){
+
+            emailtext(
+                to: "simone.rodigari@gmail.com",
+                subject: "${status}: Job '${env.JOB_NAME}'"
+                body: """<p>email body</p>""""
+                )
+        }
 }
 
 //step([$class: 'ArtifactArchiver',
