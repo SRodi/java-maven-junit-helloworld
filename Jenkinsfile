@@ -17,7 +17,7 @@ node {
 
             emailtext(
                 to: "simone.rodigari@gmail.com",
-                subject: "${status}: Job '${env.JOB_NAME}'"
+                subject: "${status}: Job '${env.JOB_NAME}'",
                 body: """<p>email body</p>""""
                 )
         }
