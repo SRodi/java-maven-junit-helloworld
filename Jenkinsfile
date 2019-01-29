@@ -12,15 +12,15 @@ node {
     stage('archive'){
         archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
     }
+}
 
-    def notify(status){
+def notify(status){
+    emailext(
+         to: "simone.rodigari@gmail.com",
+         subject: "${status}: Job '${env.JOB_NAME}'",
+         body: """<p>email body</p>"""
+    )
 
-            emailext(
-                to: "simone.rodigari@gmail.com",
-                subject: "${status}: Job '${env.JOB_NAME}'",
-                body: """<p>email body</p>"""
-                )
-        }
 }
 
 //step([$class: 'ArtifactArchiver',
