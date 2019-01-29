@@ -18,7 +18,7 @@ def notify(status){
     emailext(
          to: "simone.rodigari@gmail.com",
          subject: "${status}: Job '${env.JOB_NAME}'",
-         body: """<p>email body</p>"""
+         body: """<p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>"""
     )
 
 }
