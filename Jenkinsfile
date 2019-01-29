@@ -1,37 +1,19 @@
+node {
 
+    stage('checkout') {
 
-
-pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
+        git 'https://github.com/SRodi/java-maven-junit-helloworld.git'
     }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
-        }
+    stage('compiling, packaging'){
+
+        sh label: '', script: 'mvn package -DskipTests=true'
+    }
+    stage('archive'){
+        archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
     }
 }
 
 //step([$class: 'ArtifactArchiver',
 //        Artifacts: "target/java-maven-junit-helloworld*.jar",
 //        excludes: null])
+//https://github.com/LableOrg/java-maven-junit-helloworld.git
