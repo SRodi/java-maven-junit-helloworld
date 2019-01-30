@@ -9,7 +9,7 @@ node {
         }
         stage('compiling, packaging'){
 
-            sh label: '', script: 'mvn package'
+            sh label: '', script: 'mvn package -DskipTests=true'
         }
         stage('archive'){
             archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
