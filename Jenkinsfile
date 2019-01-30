@@ -7,17 +7,9 @@ node {
 
             git 'https://github.com/SRodi/java-maven-junit-helloworld.git'
         }
-        stage('compiling, packaging'){
+        stage('compiling, packaging, testing'){
 
             sh label: '', script: 'mvn package -DskipTests=false'
-        }
-        stage('archive'){
-
-            step([$class: 'JUnitResultArchiver',
-                        //allowEmptyResults: true,
-                        testResults: 'target/surefire-reports/TEST-*.xml'])
-
-            archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
         }
 
         notify('Success')
@@ -26,6 +18,15 @@ node {
         notify("Error: ${err}")
         currentBuild.result = 'FAILURE'
 
+    }
+
+    stage('archive'){
+
+        step([$class: 'JUnitResultArchiver',
+            //allowEmptyResults: true,
+            testResults: 'target/surefire-reports/TEST-*.xml'])
+
+        archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
     }
     notify('Done')
 }
