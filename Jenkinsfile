@@ -12,6 +12,11 @@ node {
             sh label: '', script: 'mvn package -DskipTests=false'
         }
         stage('archive'){
+
+            step([$class: 'JUnitResultArchiver',
+                        //allowEmptyResults: true,
+                        testResults: 'target/surefire-reports/TEST-*.xml'])
+
             archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
         }
 
