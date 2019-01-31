@@ -45,6 +45,24 @@ node('linux-p'){
     sh 'ls'
 }
 
+node{
+    notify("Deploy to staging?")
+}
+
+input 'Deploy to staging?'
+
+// stage name: 'Deploy', concurrency: 1
+
+// node{
+//     // write build number to index page so we can see this update
+//     sh "echo '${env.BUILD_DISPLAY_NAME}' >> log-deploy"
+
+//     // deploy to a docker container mapped to port 3000
+//     sh 'docker-compose up -d --build'
+
+//     notify 'Software Deployed!'
+// }
+
 def notify(status){
     emailext(
          to: "simone.rodigari@gmail.com",
