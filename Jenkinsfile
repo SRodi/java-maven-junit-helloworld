@@ -11,6 +11,11 @@ node {
 
             sh label: '', script: 'mvn package -DskipTests=false'
         }
+        // stash is a temporary archive
+        // to ensure same code and dependencies are used throughout the pipeline
+        stash name: 'everything',
+                excludes: 'test-results/**',
+                includes: '**'
 
         notify('Success')
 
@@ -21,6 +26,8 @@ node {
     }
 
     stage('archive'){
+        // works only on mvn clean verify
+        //publishHTML(target: [allowMissing: true,alwaysLinkToLastBuild: false,keepAll: true,reportDir: 'target/site/jacoco',reportFiles: 'index.html',reportName: 'HTML Report',reportTitles: 'Code Coverage'])
 
         step([$class: 'JUnitResultArchiver',
             //allowEmptyResults: true,
@@ -29,6 +36,13 @@ node {
         archiveArtifacts 'target/java-maven-junit-helloworld*.jar'
     }
     notify('Done')
+}
+
+node('linux-p'){
+    sh 'ls'
+    sh 'rm -rf *'
+    unstash 'everything'
+    sh 'ls'
 }
 
 def notify(status){
