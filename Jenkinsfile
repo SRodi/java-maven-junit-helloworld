@@ -38,7 +38,7 @@ node {
     notify('Done')
 }
 
-node('linux-p'){
+node('agent1'){
     sh 'ls'
     sh 'rm -rf *'
     unstash 'everything'
